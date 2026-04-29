@@ -47,3 +47,18 @@ Then verify connectivity with:
 ```bash
 kubectl get nodes
 ```
+
+## Access the ArgoCD application
+
+```bash
+kubectl get svc -n argocd
+```
+
+Copy the "argo-server" External IP and paste it into your browser.
+
+The default username is "admin". Execute the next command to retrieve the password.
+
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
