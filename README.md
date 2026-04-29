@@ -4,7 +4,7 @@ This repository deploys an Amazon EKS cluster and ArgoCD Helm installation using
 
 ## Prerequisites
 
-- Terraform 1.0+ installed
+- Terraform 1.14.+ installed
 - AWS CLI configured with credentials and default region
 - IAM permissions to create EKS, VPC, IAM, and related resources
 
