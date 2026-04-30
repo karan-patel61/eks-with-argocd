@@ -2,6 +2,8 @@ resource "kubernetes_namespace_v1" "argocd" {
   metadata {
     name = "argocd"
   }
+
+  depends_on = [module.eks]
 }
 
 resource "helm_release" "argocd" {
