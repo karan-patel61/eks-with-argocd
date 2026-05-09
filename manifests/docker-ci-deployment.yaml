@@ -59,11 +59,16 @@ metadata:
   name: docker-ci-frontend
   labels:
     app: docker-ci
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: docker-ci
     tier: frontend
   ports:
-    - port: 3000
+    - protocol: TCP
+      port: 3000
       targetPort: 3000
