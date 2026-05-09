@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-ci-app
+  labels:
+    app: docker-ci
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: docker-ci
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: docker-ci
+        tier: frontend
+    spec:
+      containers:
+      - name: docker-ci
+        image: karanpatel12/getting-started:v1
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MYSQL_HOST
+          value: docker-mysql
+        - name: MYSQL_DB
+          value: todos
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        volumeMounts:
+        - name: docker-persistent-storage
+          mountPath: /etc/todos
+      volumes:
+      - name: docker-persistent-storage
+        persistentVolumeClaim:
+          claimName: docker-pv-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: docker-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: docker-ci-frontend
+  labels:
+    app: docker-ci
+spec:
+  type: NodePort
+  selector:
+    app: docker-ci
+    tier: frontend
+  ports:
+    - port: 3000
+      targetPort: 3000

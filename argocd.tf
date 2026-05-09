@@ -11,7 +11,7 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   namespace  = "argocd"
-  version    = "6.7.11" # Standard version for 2026
+  version    = "9.5.0"
 
   # This setting changes the service type to LoadBalancer
   # This tells AWS to create an actual URL you can visit in your browser
@@ -32,4 +32,9 @@ data "kubernetes_service_v1" "argocd_server" {
   }
   # This ensures we don't look for the service before the chart starts installing
   depends_on = [helm_release.argocd]
+}
+
+output "argocd_server_url" {
+  value = data.kubernetes_service_v1.argocd_server.status[0].load_balancer[0].ingress[0].hostname
+  
 }
