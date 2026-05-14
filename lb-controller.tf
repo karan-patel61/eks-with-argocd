@@ -3,10 +3,7 @@ resource "helm_release" "lbc" {
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
   namespace  = "kube-system"
-  version    = "1.7.2" # Check for latest version in 2026
-  # Increase timeout to 15 minutes
-#   timeout    = 900
-#   wait       = true
+  version    = "1.7.2"
 
   set = [{
     name  = "clusterName"
