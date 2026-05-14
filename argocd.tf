@@ -13,11 +13,10 @@ resource "helm_release" "argocd" {
   namespace  = "argocd"
   version    = "9.5.0"
 
-  # This setting changes the service type to LoadBalancer
-  # This tells AWS to create an actual URL you can visit in your browser
+
   set = [{
     name  = "server.service.type"
-    value = "LoadBalancer"
+    value = "ClusterIP"
   }]
 
   depends_on = [module.eks] # CRITICAL: Don't try to install until EKS is ready

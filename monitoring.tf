@@ -13,10 +13,10 @@ resource "helm_release" "prometheus" {
   namespace  = "monitoring"
   version    = "61.3.1" # Standard stable version
 
-  # This allows Grafana to be accessed via an AWS Load Balancer
+
   set = [{
     name  = "grafana.service.type"
-    value = "LoadBalancer"
+    value = "ClusterIP"
   },
   {
     # Ensure Prometheus has enough storage for history (using AWS EBS)
