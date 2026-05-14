@@ -11,14 +11,17 @@ module "vpc" {
 
   enable_nat_gateway = true
   single_nat_gateway = true # Saves cost for personal projects
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 
   public_subnet_tags = {
     "kubernetes.io/role/elb" = 1
+    "kubernetes.io/cluster/gitops-cluster" = "shared"
   }
 
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = 1
     # Allows EKS to discover subnets for internal load balancers
-    "kubernetes.io/cluster/devops-capstone-cluster" = "shared"
+    "kubernetes.io/cluster/gitops-cluster" = "shared"
   }
 }
